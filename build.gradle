@@ -41,4 +41,5 @@ mundo {
 
 compileJava {
     options.compilerArgs << "-Xlint:deprecation"
+    options.encoding 'UTF-8'
 }
