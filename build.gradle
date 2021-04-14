@@ -20,18 +20,18 @@ mundo {
     versionSummary = "The first stable release of Tablisknu, with documentation for the new blueprint feature."
 
     coreModules(
-            'Base:1.0-BETA.14',
-            'Registration:1.0-BETA.7',
+            'Base:1.0-BETA.16',
+            'Registration:1.0-BETA.8',
             'ReflectiveRegistration:1.0-BETA.2',
-            'Enum:1.0-BETA.2',
+            'Enum:1.0-BETA.3',
             'PropertyExpression:1.0-BETA.0',
             'Util:1.0-BETA.2',
             'Reflection:1.0-BETA.1',
-            'Updating:1.0-BETA.13'
+            'Updating:1.0-BETA.14'
     )
     spigot '1.13.1-R0.1-SNAPSHOT'
     skript '2.4-alpha1'
-    protocolLib '4.4.0-SNAPSHOT'
+    protocolLib '4.4.0'
     bStats '1.5'
 
     command.description 'Basic information about Tablisknu, viewing documentation, reloading the config, and updating.'
