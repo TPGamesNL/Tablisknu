@@ -38,9 +38,7 @@ public class ProfileManager {
 
     private static Reflection.MethodInvoker CRAFT_PLAYER_GET_HANDLE = null;
     private static Reflection.MethodInvoker DEDICATED_PLAYER_LIST_MOVE_TO_WORLD = null;
-    private static Object DIMENSION_MANAGER_OVERWORLD = null;
-    private static Object DIMENSION_MANAGER_NETHER = null;
-    private static Object DIMENSION_MANAGER_THE_END = null;
+    private static Reflection.MethodInvoker CRAFT_WORLD_GET_HANDLE = null;
 
     public static void load() {
         loadReflectionStuff();
@@ -61,19 +59,21 @@ public class ProfileManager {
 
     private static void loadReflectionStuff() {
         try {
-            CRAFT_PLAYER_GET_HANDLE = Reflection.getTypedMethod(Reflection.getCraftBukkitClass("entity.CraftPlayer"), "getHandle", Reflection.getMinecraftClass("EntityPlayer"));
+            CRAFT_PLAYER_GET_HANDLE = Reflection.getTypedMethod(
+                    Reflection.getCraftBukkitClass("entity.CraftPlayer"), "getHandle",
+                    Reflection.getMinecraftClass("EntityPlayer")
+            );
             DEDICATED_PLAYER_LIST_MOVE_TO_WORLD = Reflection.getMethod(
                     Reflection.getMinecraftClass("DedicatedPlayerList"), "moveToWorld",
                     Reflection.getMinecraftClass("EntityPlayer"),
-                    Reflection.getMinecraftClass("DimensionManager"),
+                    Reflection.getMinecraftClass("WorldServer"),
                     boolean.class,
                     Location.class,
                     boolean.class
             );
-            Class<?> dimensionManagerClass = Reflection.getMinecraftClass("DimensionManager");
-            DIMENSION_MANAGER_OVERWORLD = Reflection.getStaticField(dimensionManagerClass, "OVERWORLD");
-            DIMENSION_MANAGER_NETHER = Reflection.getStaticField(dimensionManagerClass, "NETHER");
-            DIMENSION_MANAGER_THE_END = Reflection.getStaticField(dimensionManagerClass, "THE_END");
+            CRAFT_WORLD_GET_HANDLE = Reflection.getMethod(
+                    Reflection.getCraftBukkitClass("CraftWorld"), "getHandle"
+            );
         } catch (Exception e) {
             Logging.reportException(ProfileManager.class, e);
         }
@@ -255,7 +255,7 @@ public class ProfileManager {
             DEDICATED_PLAYER_LIST_MOVE_TO_WORLD.invoke(
                     Reflection.NMS_SERVER,
                     CRAFT_PLAYER_GET_HANDLE.invoke(player),
-                    dimensionToManager(playerLoc.getWorld().getEnvironment()),
+                    CRAFT_WORLD_GET_HANDLE.invoke(playerLoc.getWorld()),
                     true,
                     playerLoc,
                     true
@@ -266,12 +266,4 @@ public class ProfileManager {
         }
     }
 
-    private static Object dimensionToManager(World.Environment dimension) {
-        switch (dimension) {
-            case NORMAL: return DIMENSION_MANAGER_OVERWORLD;
-            case NETHER: return DIMENSION_MANAGER_NETHER;
-            case THE_END: return DIMENSION_MANAGER_THE_END;
-        }
-        throw new IllegalArgumentException("Illegal dimension = null");
-    }
 }
