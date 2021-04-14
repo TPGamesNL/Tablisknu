@@ -11,13 +11,15 @@ buildscript {
 apply plugin: 'us.tlatoani.mundocore'
 
 group 'us.tlatoani'
-version '1.0'
+version '1.0-TP'
 
 description  = "A Skript addon that allows Skripters to control and change the Minecraft tablist "
 description += "as well as manipulate skins to change the displayed skins of players, player heads, and tablist icons."
 
 mundo {
     versionSummary = "The first stable release of Tablisknu, with documentation for the new blueprint feature."
+    authors 'Tlatoani', 'TPGamesNL'
+    website 'https://github.com/TPGamesNL/Tablisknu'
 
     coreModules(
             'Base:1.0-BETA.16',
@@ -29,15 +31,12 @@ mundo {
             'Reflection:1.0-BETA.1',
             'Updating:1.0-BETA.14'
     )
-    spigot '1.13.1-R0.1-SNAPSHOT'
-    skript '2.4-alpha1'
+    spigot '1.16.5-R0.1-SNAPSHOT'
+    skript '2.5.3'
     protocolLib '4.4.0'
     bStats '1.5'
 
     command.description 'Basic information about Tablisknu, viewing documentation, reloading the config, and updating.'
-
-    personalRepo '../maven-repo'
-    mundoServerIdentity '../EC2/mundo_key.pem'
 }
 
 compileJava {
